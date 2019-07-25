@@ -1,0 +1,10 @@
+source "https://rubygems.org"
+
+# Cucumber test framework
+gem 'cucumber', '~> 3.1'
+
+# Preferred HTTP Client
+gem 'httparty', '~> 0.17'
+
+# Gherkin linter
+gem 'chutney', '~> 1.6'

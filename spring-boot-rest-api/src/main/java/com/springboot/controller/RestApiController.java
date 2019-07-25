@@ -60,6 +60,11 @@ public class RestApiController {
 	public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
 		logger.info("Creating User : {}", user);
 
+		if (user.getName() == null || user.getName().isEmpty()) {
+			logger.error("Unable to create. User name is missing");
+			return new ResponseEntity(new CustomErrorType("Unable to create. User name is missing."),HttpStatus.BAD_REQUEST);
+		}
+
 		if (userService.isUserExist(user)) {
 			logger.error("Unable to create. A User with name {} already exist", user.getName());
 			return new ResponseEntity(new CustomErrorType("Unable to create. User already exists."),HttpStatus.CONFLICT);
@@ -68,7 +73,7 @@ public class RestApiController {
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setLocation(ucBuilder.path("/api/user/{id}").buildAndExpand(user.getId()).toUri());
-		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
+		return new ResponseEntity<User>(user, HttpStatus.CREATED);
 	}
 
 //	// ------------------- Update a User ------------------------------------------------
@@ -92,23 +97,23 @@ public class RestApiController {
 //		userService.updateUser(currentUser);
 //		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
 //	}
-//
-//	// ------------------- Delete a User-----------------------------------------
-//
-//	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
-//	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
-//		logger.info("Fetching & Deleting User with id {}", id);
-//
-//		User user = userService.findById(id);
-//		if (user == null) {
-//			logger.error("Unable to delete. User with id {} not found.", id);
-//			return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
-//					HttpStatus.NOT_FOUND);
-//		}
-//		userService.deleteUserById(id);
-//		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-//	}
-//
+
+	// ------------------- Delete a User-----------------------------------------
+
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
+		logger.info("Fetching & Deleting User with id {}", id);
+
+		User user = userService.findById(id);
+		if (user == null) {
+			logger.error("Unable to delete. User with id {} not found.", id);
+			return new ResponseEntity(new CustomErrorType("Unable to delete. User with id " + id + " not found."),
+					HttpStatus.NOT_FOUND);
+		}
+		userService.deleteUserById(id);
+		return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
+	}
+
 	// ------------------- Delete All Users-----------------------------
 
 	@RequestMapping(value = "/user/", method = RequestMethod.DELETE)
