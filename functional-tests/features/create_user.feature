@@ -1,4 +1,5 @@
-Feature: Create
+Feature: Create User
+  Description: Test cases for creating a new user
 
   Scenario: Successfully create a user
 

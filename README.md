@@ -38,3 +38,8 @@ To run the service, from the root directory
 ``` bash
 docker-compose up --build
 ```
+
+### Notes
+
+Remember to run the chutney command after each new test you add to ensure it 
+complies with chutney standards (from the functional-tests directory)

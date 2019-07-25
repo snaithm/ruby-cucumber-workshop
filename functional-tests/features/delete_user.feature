@@ -1,4 +1,5 @@
-Feature: Delete
+Feature: Delete User
+  Description: Test cases for deleting a user
 
   Scenario: Successfully delete a user
 

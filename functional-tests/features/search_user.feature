@@ -1,4 +1,5 @@
-Feature: Search
+Feature: Search User
+  Description: Test cases for searching for a user
 
   Scenario: Successfully search for a user which exists
 
